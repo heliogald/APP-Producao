@@ -1,0 +1,46 @@
+{
+  "name": "app_estoque",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
+    "format": "prettier --write ./src"
+  },
+  "dependencies": {
+    "admin-on-rest": "^1.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "latest": "^0.2.0",
+    "list": "^2.0.19",
+    "ra-data-json-server": "^4.15.2",
+    "ra-data-simple-rest": "^4.14.0",
+    "ra-input-rich-text": "^4.16.16",
+    "ra-jsonapi-client": "henvo/ra-jsonapi-client",
+    "react": "^18.2.0",
+    "react-admin": "^4.14.0",
+    "react-dom": "^18.2.0",
+    "vit": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/node": "^18.16.1",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "@vitejs/plugin-react": "^4.0.1",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.6",
+    "vite": "^4.3.9"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Helio Galdino",
+  "license": "MIT"
+}
