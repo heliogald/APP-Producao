@@ -1,14 +1,10 @@
 import {
   Admin,
   Resource,
-  ListGuesser,
-  EditGuesser,
-  ShowGuesser,
-  jsonServerRestClient,
 } from "react-admin";
 
 import { dataProvider } from "./dataProvider";
-import { authProvider } from "./authProvider";
+import  authProvider  from "./authProvider";
 import { ItemList, ItemCreate, ItemEdit, ItemShow} from "./itens/index";
 
 export const App = () => (

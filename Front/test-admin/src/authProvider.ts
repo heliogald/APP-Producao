@@ -1,18 +1,18 @@
-import { AuthProvider} from "react-admin";
+import { AuthProvider, HttpError} from "react-admin";
 import data from "./users.json";
 
 /**
  * This authProvider is only for test purposes. Don't use it in production.
  */
 export const authProvider: AuthProvider = {
-  login: ({ email, senha }) => {
+  login: ({ username, password }) => {
     const user = data.users.find(
-      (u) => u.email === email && u.senha === senha
+      (u) => u.username === username && u.password === password
     );
 
     if (user) {
       // eslint-disable-next-line no-unused-vars
-      let { email, ...userToPersist } = user;
+      let { username, ...userToPersist } = user;
       localStorage.setItem("user", JSON.stringify(userToPersist));
       return Promise.resolve();
     }
@@ -42,10 +42,6 @@ export const authProvider: AuthProvider = {
 };
 
 export default authProvider;
-
-
-
-
 
 
 
