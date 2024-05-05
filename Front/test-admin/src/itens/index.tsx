@@ -1,6 +1,4 @@
 import { useMediaQuery, Theme, Stack  } from "@mui/material";
-import MailIcon from "@mui/icons-material/MailOutline";
-import CategoryIcon from "@mui/icons-material/LocalOffer";
 import {  
   Datagrid, 
   SearchInput,
@@ -20,12 +18,12 @@ import {
 } from "react-admin";
 
 const listFilters = [
-  <SearchInput source="q" alwaysOn />,
-  <TextInput label="Void" source="title" defaultValue="Void" />,
+  <SearchInput source="q" alwaysOn />,  
+  <TextInput label="Data de Liberação" source="title" defaultValue="Data de Liberacao" />,
 ];
 
 
-export const ItemList = () => {
+export const ItemList = () => {  
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List filters={listFilters}>

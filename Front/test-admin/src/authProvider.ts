@@ -1,47 +1,81 @@
-import { AuthProvider, HttpError} from "react-admin";
-import data from "./users.json";
+import { AuthProvider, HttpError } from "react-admin";
 
-/**
- * This authProvider is only for test purposes. Don't use it in production.
- */
-export const authProvider: AuthProvider = {
-  login: ({ username, password }) => {
-    const user = data.users.find(
-      (u) => u.username === username && u.password === password
-    );
 
-    if (user) {
-      // eslint-disable-next-line no-unused-vars
-      let { username, ...userToPersist } = user;
-      localStorage.setItem("user", JSON.stringify(userToPersist));
-      return Promise.resolve();
+// Defina a URL base da API
+const API_URL = 'http://localhost:4000';
+
+export const authProvider: AuthProvider = {  
+  login: async ({ username, password } ) => {    
+    try {
+      // Mapeando os nomes para corresponder à API
+      const requestBody = JSON.stringify({ usuario: username, senha: password });
+
+      // Faz uma requisição POST para a rota de login da API
+      const response = await fetch(`${API_URL}/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      // Verifica se a resposta da API é bem sucedida
+      if (response.ok) {
+        // Tente fazer o parse do JSON da resposta
+        try {
+          const data = await response.json();
+          localStorage.setItem('auth', JSON.stringify({ ...data, username }));
+          return Promise.resolve();
+        } catch (error) {
+          // Se não conseguir fazer o parse do JSON, assuma que a resposta é uma string simples
+          localStorage.setItem('auth', JSON.stringify({ username }));
+          return Promise.resolve();
+        }
+      } else {
+        // Tentativa de ler o corpo da resposta como JSON ou texto
+        const errorText = await response.text();
+        try {
+          const errorData = JSON.parse(errorText);
+          return Promise.reject(new HttpError(errorData.message || 'Erro desconhecido', response.status));
+        } catch {
+          return Promise.reject(new HttpError(errorText, response.status));
+        }
+      }
+    } catch (error) {
+      console.error("Network error", error);
+      return Promise.reject(new HttpError("Network error", 500));
     }
-
-    return Promise.reject(
-      new HttpError("Unauthorized", 401, {
-        message: "Invalid username or password",
-      })
-    );
   },
   logout: () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem('auth');
     return Promise.resolve();
   },
-  checkError: () => Promise.resolve(),
-  checkAuth: () =>
-    localStorage.getItem("user") ? Promise.resolve() : Promise.reject(),
-  getPermissions: () => {
-    return Promise.resolve(undefined);
+  checkError: ({ status }) => {
+    if (status === 401 || status === 403) {
+      localStorage.removeItem('auth');
+      return Promise.reject();
+    }
+    return Promise.resolve();
   },
-  getIdentity: () => {
-    const persistedUser = localStorage.getItem("user");
-    const user = persistedUser ? JSON.parse(persistedUser) : null;
-
-    return Promise.resolve(user);
+  checkAuth: () => {
+    return localStorage.getItem('auth') ? Promise.resolve() : Promise.reject();
+  },
+  getPermissions: () => Promise.resolve(undefined),
+  _getIdentity: () => {
+    const auth = localStorage.getItem('auth');
+    const user = auth ? JSON.parse(auth) : null;
+    return Promise.resolve(user ? { id: user.id, fullName: user.fullName, avatar: user.avatar } : null);
+  },
+  get getIdentity() {
+    return this._getIdentity;
+  },
+  set getIdentity(value) {
+    this._getIdentity = value;
   },
 };
 
 export default authProvider;
+
 
 
 

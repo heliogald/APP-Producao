@@ -25,27 +25,18 @@ const listFilters = [
 ];
 
 
-export const ItemList = () => {
+export const ClienteList = () => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List filters={listFilters}>
       {isSmall ? (
         <SimpleList
-          primaryText={(record) => record.nomeCliente}
-          secondaryText={(record) => record.equipamentoModelo}
-          tertiaryText={(record) => record.descricao}
+          primaryText={(record) => record.nomeCliente}         
         />
       ) : (
         <Datagrid rowClick="edit">          
           {/* <TextField source="id" disabled/> */}
-          <TextField source="nomeCliente" />
-          <TextField source="equipamentoModelo" />
-          <TextField source="numeroDeSerie" />
-          <TextField source="dataDeLiberacao" />
-          <TextField source="codigo" />
-          <TextField source="descricao" />
-          <TextField source="quantidade" />
-          <TextField source="void" />
+          <TextField source="nomeCliente" />         
           <EditButton />
         </Datagrid>
       )}
@@ -53,18 +44,11 @@ export const ItemList = () => {
   );
 };
 
-export const ItemCreate = () => (
+export const ClienteCreate = () => (
   <Create>
     <SimpleForm>
       <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />
-      <TextInput source="equipamentoModelo" />
-      <TextInput source="numeroDeSerie" />
-      <DateInput source="dataDeLiberacao" />
-      <TextInput source="codigo" />
-      <TextInput source="descricao" />
-      <TextInput source="quantidade" />
-      <TextInput source="void" />
+      <TextInput source="nomeCliente" />     
     </SimpleForm>
   </Create>
 );
@@ -74,34 +58,20 @@ const PageTitles = () => {
   return <>Edit "{record?.nomeCliente}"</>;
 };
 
-export const ItemEdit = () => (
+export const ClienteEdit = () => (
   <Edit title={<PageTitles />}>
     <SimpleForm>
       <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />
-      <TextInput source="equipamentoModelo" />
-      <TextInput source="numeroDeSerie" />
-      <DateInput source="dataDeLiberacao" required />
-      <TextInput source="codigo" />
-      <TextInput source="descricao" />
-      <TextInput source="quantidade" />
-      <TextInput source="void" />
+      <TextInput source="nomeCliente" />      
     </SimpleForm>
   </Edit>
 );
 
-export const ItemShow = () => (
+export const ClienteShow = () => (
   <Show>
     <SimpleShowLayout>
       <TextField source="id" />
-      <TextField source="nomeCliente" />
-      <TextField source="equipamentoModelo" />
-      <TextField source="numeroDeSerie" />
-      <TextField source="dataDeLiberacao" />
-      <DateField source="codigo" />
-      <TextField source="descricao" />
-      <TextField source="quantidade" />
-      <TextField source="void" />
+      <TextField source="nomeCliente" />     
     </SimpleShowLayout>
   </Show>
 );
