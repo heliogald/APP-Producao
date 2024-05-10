@@ -1,20 +1,22 @@
 import { AuthProvider, HttpError } from "react-admin";
 
-
 // Defina a URL base da API
-const API_URL = 'http://localhost:4000';
+const API_URL = "http://localhost:4000";
 
-export const authProvider: AuthProvider = {  
-  login: async ({ username, password } ) => {    
+export const authProvider: AuthProvider = {
+  login: async ({ username, password }) => {
     try {
       // Mapeando os nomes para corresponder à API
-      const requestBody = JSON.stringify({ usuario: username, senha: password });
+      const requestBody = JSON.stringify({
+        usuario: username,
+        senha: password,
+      });
 
       // Faz uma requisição POST para a rota de login da API
       const response = await fetch(`${API_URL}/signin`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: requestBody,
       });
@@ -24,11 +26,11 @@ export const authProvider: AuthProvider = {
         // Tente fazer o parse do JSON da resposta
         try {
           const data = await response.json();
-          localStorage.setItem('auth', JSON.stringify({ ...data, username }));
+          localStorage.setItem("auth", JSON.stringify({ ...data, username }));
           return Promise.resolve();
         } catch (error) {
           // Se não conseguir fazer o parse do JSON, assuma que a resposta é uma string simples
-          localStorage.setItem('auth', JSON.stringify({ username }));
+          localStorage.setItem("auth", JSON.stringify({ username }));
           return Promise.resolve();
         }
       } else {
@@ -36,7 +38,12 @@ export const authProvider: AuthProvider = {
         const errorText = await response.text();
         try {
           const errorData = JSON.parse(errorText);
-          return Promise.reject(new HttpError(errorData.message || 'Erro desconhecido', response.status));
+          return Promise.reject(
+            new HttpError(
+              errorData.message || "Erro desconhecido",
+              response.status
+            )
+          );
         } catch {
           return Promise.reject(new HttpError(errorText, response.status));
         }
@@ -47,24 +54,28 @@ export const authProvider: AuthProvider = {
     }
   },
   logout: () => {
-    localStorage.removeItem('auth');
+    localStorage.removeItem("auth");
     return Promise.resolve();
   },
   checkError: ({ status }) => {
     if (status === 401 || status === 403) {
-      localStorage.removeItem('auth');
+      localStorage.removeItem("auth");
       return Promise.reject();
     }
     return Promise.resolve();
   },
   checkAuth: () => {
-    return localStorage.getItem('auth') ? Promise.resolve() : Promise.reject();
+    return localStorage.getItem("auth") ? Promise.resolve() : Promise.reject();
   },
   getPermissions: () => Promise.resolve(undefined),
   _getIdentity: () => {
-    const auth = localStorage.getItem('auth');
+    const auth = localStorage.getItem("auth");
     const user = auth ? JSON.parse(auth) : null;
-    return Promise.resolve(user ? { id: user.id, fullName: user.fullName, avatar: user.avatar } : null);
+    return Promise.resolve(
+      user
+        ? { id: user.id, fullName: user.fullName, avatar: user.avatar }
+        : null
+    );
   },
   get getIdentity() {
     return this._getIdentity;
@@ -75,7 +86,3 @@ export const authProvider: AuthProvider = {
 };
 
 export default authProvider;
-
-
-
-

@@ -1,12 +1,13 @@
-import { useMediaQuery, Theme, Stack  } from "@mui/material";
-import {  
-  Datagrid, 
+import { useMediaQuery, Theme } from "@mui/material";
+import {
+  Datagrid,
   SearchInput,
+  SelectInput,
   List,
   TextField,
   Create,
   SimpleForm,
-  TextInput,  
+  TextInput,
   DateInput,
   Edit,
   Show,
@@ -14,16 +15,24 @@ import {
   DateField,
   useRecordContext,
   SimpleShowLayout,
-  EditButton,  
+  EditButton,
+  ReferenceInput,
+  ArrayInput,
+  SimpleFormIterator,
 } from "react-admin";
 
 const listFilters = [
-  <SearchInput source="q" alwaysOn />,  
-  <TextInput label="Data de Liberação" source="title" defaultValue="Data de Liberacao" />,
+  // eslint-disable-next-line react/jsx-key
+  <SearchInput source="q" alwaysOn />,
+  // eslint-disable-next-line react/jsx-key
+  <TextInput
+    label="Data de Liberação"
+    source="title"
+    defaultValue="Data de Liberacao"
+  />,
 ];
 
-
-export const ItemList = () => {  
+export const ItemList = () => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List filters={listFilters}>
@@ -34,7 +43,7 @@ export const ItemList = () => {
           tertiaryText={(record) => record.descricao}
         />
       ) : (
-        <Datagrid rowClick="edit">          
+        <Datagrid rowClick="edit">
           {/* <TextField source="id" disabled/> */}
           <TextField source="nomeCliente" />
           <TextField source="equipamentoModelo" />
@@ -54,29 +63,46 @@ export const ItemList = () => {
 export const ItemCreate = () => (
   <Create>
     <SimpleForm>
-      <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />
-      <TextInput source="equipamentoModelo" />
-      <TextInput source="numeroDeSerie" />
-      <DateInput source="dataDeLiberacao" />
-      <TextInput source="codigo" />
-      <TextInput source="descricao" />
-      <TextInput source="quantidade" />
-      <TextInput source="void" />
+      <ReferenceInput source="nomeCliente" reference="cliente">
+        <SelectInput optionText="nomeCliente" optionValue="nomeCliente" />
+      </ReferenceInput>
+      <ReferenceInput source="equipamentoModelo" reference="item">
+        <SelectInput
+          optionText="equipamentoModelo"
+          optionValue="equipamentoModelo"
+        />
+      </ReferenceInput>
+      <TextInput source="numeroDeSerie" label="Número de Série" />
+
+      <DateInput source="dataDeLiberacao" label="Data de Liberação" />
+
+      <ArrayInput source="pecas" label="Peças">
+        <SimpleFormIterator>
+          <TextInput source="codigo" label="Código" />
+          <TextInput source="descricao" label="Descrição" />
+          <TextInput source="quantidade" label="Quantidade" />
+          <TextInput source="void" label="Void" />
+        </SimpleFormIterator>
+      </ArrayInput>
     </SimpleForm>
   </Create>
 );
 
 const PageTitles = () => {
   const record = useRecordContext();
-  return <>Edit "{record?.nomeCliente}"</>;
+  return <>Edit `{record?.nomeCliente}`</>;
 };
 
 export const ItemEdit = () => (
   <Edit title={<PageTitles />}>
     <SimpleForm>
-      <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />
+      {/* <TextInput source="id" disabled /> */}
+      <ReferenceInput source="nomeCliente" reference="cliente">
+        <SelectInput
+          optionText="nomeCliente"
+          optionValue="nomeCliente" // Define o valor nomeCliente como o valor selecionado
+        />
+      </ReferenceInput>
       <TextInput source="equipamentoModelo" />
       <TextInput source="numeroDeSerie" />
       <DateInput source="dataDeLiberacao" required />
@@ -91,7 +117,7 @@ export const ItemEdit = () => (
 export const ItemShow = () => (
   <Show>
     <SimpleShowLayout>
-      <TextField source="id" />
+      {/* <TextField source="id" /> */}
       <TextField source="nomeCliente" />
       <TextField source="equipamentoModelo" />
       <TextField source="numeroDeSerie" />
@@ -103,4 +129,3 @@ export const ItemShow = () => (
     </SimpleShowLayout>
   </Show>
 );
-
