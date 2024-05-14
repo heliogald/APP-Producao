@@ -1,6 +1,6 @@
 import { db } from "../db.js";
 
-export const getClientes = (req, res) => {
+export const getPecas = (req, res) => {
   // Extração dos parâmetros de query
   const { _end, _order = "ASC", _sort = "id", _start = 0, q } = req.query;
 
@@ -11,11 +11,11 @@ export const getClientes = (req, res) => {
   // Inicialização da cláusula WHERE para busca
   let whereClause = "";
   if (q) {
-    whereClause = `WHERE nomeCliente LIKE '%${q}%'`; // ajustar conforme necessidade das colunas de busca
+    whereClause = `WHERE descricao LIKE '%${q}%'`; // ajustar conforme necessidade das colunas de busca
   }
 
   // Consulta com ordenação e paginação
-  const qSQL = `SELECT * FROM clientes ${whereClause} ORDER BY ${_sort} ${_order} LIMIT ${limit} OFFSET ${offset};`;
+  const qSQL = `SELECT * FROM pecas ${whereClause} ORDER BY ${_sort} ${_order} LIMIT ${limit} OFFSET ${offset};`;
 
   db.query(qSQL, (err, data) => {
     if (err) {
@@ -25,9 +25,9 @@ export const getClientes = (req, res) => {
   });
 };
 
-export const getClientesId = (req, res) => {
+export const getPecasId = (req, res) => {
   const { id } = req.params;
-  const q = "SELECT * FROM clientes where id = ?;";
+  const q = "SELECT * FROM pecas where id = ?;";
 
   db.query(q, [id], (err, data) => {
     // Usar parâmetros de consulta parametrizada
@@ -37,17 +37,17 @@ export const getClientesId = (req, res) => {
 
     // Adicionar uma verificação para ver se o item foi encontrado
     if (data.length === 0) {
-      return res.status(404).json({ message: "Cliente not found" });
+      return res.status(404).json({ message: "Peças not found" });
     }
 
     return res.status(200).json(data[0]); // Retorna apenas o primeiro item se múltiplos não forem esperados
   });
 };
 
-export const addClientes = (req, res) => {
-  const q = "INSERT INTO clientes(`nomeCliente`) VALUE(?)";
+export const addPecas = (req, res) => {
+  const q = "INSERT INTO pecas(`descricao`) VALUE(?)";
 
-  const values = [req.body.nomeCliente];
+  const values = [req.body.descricao];
 
   console.log(values);
   console.log(req.body);
@@ -59,38 +59,34 @@ export const addClientes = (req, res) => {
   });
 };
 
-export const updateClientes = (req, res) => {
-  const q = "UPDATE clientes SET `nomeCliente` = ? WHERE `id` = ?";
+export const updatePecas = (req, res) => {
+  const q = "UPDATE pecas SET `descricao` = ? WHERE `id` = ?";
 
-  const values = [req.body.nomeCliente, req.params.id];
+  const values = [req.body.descricao, req.params.id];
 
   db.query(q, values, (error, result) => {
     if (error) return res.status(500).json(error);
 
     // Verifica se houve alguma linha afetada pela atualização
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Cliente não encontrado" });
+      return res.status(404).json({ message: "Peça não encontrada" });
     }
 
     // Retorna o objeto atualizado
-    db.query(
-      "SELECT * FROM clientes WHERE id = ?",
-      req.params.id,
-      (err, data) => {
-        if (err) return res.status(500).json(err);
+    db.query("SELECT * FROM pecas WHERE id = ?", req.params.id, (err, data) => {
+      if (err) return res.status(500).json(err);
 
-        return res.status(200).json(data[0]);
-      }
-    );
+      return res.status(200).json(data[0]);
+    });
   });
 };
 
-export const deleteClientes = (req, res) => {
-  const q = "DELETE FROM clientes WHERE `id` = ?";
+export const deletePecas = (req, res) => {
+  const q = "DELETE FROM pecas WHERE `id` = ?";
 
   db.query(q, [req.params.id], (error) => {
     if (error) return res.json(error);
 
-    return res.status(200).json("Cliente deletado com sucesso");
+    return res.status(200).json("Peça deletada com sucesso");
   });
 };

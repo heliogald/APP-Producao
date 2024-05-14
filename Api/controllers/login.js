@@ -1,6 +1,6 @@
 // controllers/login.js
-import bcrypt from 'bcrypt';
-import { db } from '../db.js';
+import bcrypt from "bcrypt";
+import { db } from "../db.js";
 
 export const addUsuario = async (req, res) => {
   const { nome, email, usuario, senha } = req.body;
@@ -10,7 +10,8 @@ export const addUsuario = async (req, res) => {
   }
 
   try {
-    const EXIST_USER_QUERY = "SELECT * FROM users WHERE usuario = ? OR email = ?";
+    const EXIST_USER_QUERY =
+      "SELECT * FROM users WHERE usuario = ? OR email = ?";
     db.query(EXIST_USER_QUERY, [usuario, email], async (err, results) => {
       if (err) {
         return res.status(500).send("Erro ao verificar usuário existente");
@@ -19,14 +20,19 @@ export const addUsuario = async (req, res) => {
       } else {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(senha, saltRounds);
-        const INSERT_USER_QUERY = "INSERT INTO users (nome, email, usuario, senha) VALUES (?, ?, ?, ?)";
-        db.query(INSERT_USER_QUERY, [nome, email, usuario, hashedPassword], (err, result) => {
-          if (err) {
-            return res.status(500).send("Erro ao registrar usuário");
-          } else {
-            return res.send("Usuário registrado com sucesso");
+        const INSERT_USER_QUERY =
+          "INSERT INTO users (nome, email, usuario, senha) VALUES (?, ?, ?, ?)";
+        db.query(
+          INSERT_USER_QUERY,
+          [nome, email, usuario, hashedPassword],
+          (err, result) => {
+            if (err) {
+              return res.status(500).send("Erro ao registrar usuário");
+            } else {
+              return res.send("Usuário registrado com sucesso");
+            }
           }
-        });
+        );
       }
     });
   } catch (error) {
@@ -34,20 +40,22 @@ export const addUsuario = async (req, res) => {
   }
 };
 
-
 export const editUsuario = async (req, res) => {
   const { nome, email, usuario, senha } = req.body;
 
   // Certifique-se de que todos os campos necessários estão presentes
   if (!nome || !email || !usuario || !senha) {
-    return res.status(400).send("Todos os campos são necessários para atualização.");
+    return res
+      .status(400)
+      .send("Todos os campos são necessários para atualização.");
   }
 
   try {
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(senha, saltRounds);  // Criptografando a senha
+    const hashedPassword = await bcrypt.hash(senha, saltRounds); // Criptografando a senha
 
-    const q = "UPDATE users SET nome = ?, email = ?, usuario = ?, senha = ? WHERE id = ?";
+    const q =
+      "UPDATE users SET nome = ?, email = ?, usuario = ?, senha = ? WHERE id = ?";
     const values = [nome, email, usuario, hashedPassword];
 
     db.query(q, [...values, req.params.id], (error, result) => {
@@ -64,8 +72,6 @@ export const editUsuario = async (req, res) => {
     return res.status(500).send("Erro ao criar hash da senha");
   }
 };
-
-
 
 export const deleteUsuario = async (req, res) => {
   const { id } = req.params; // Usando parâmetros de rota
@@ -86,31 +92,28 @@ export const deleteUsuario = async (req, res) => {
   });
 };
 
-
 export const listUsuarios = (req, res) => {
-  const { _end, _order = 'ASC', _sort = 'id', _start = 0, q } = req.query;  
+  const { _end, _order = "ASC", _sort = "id", _start = 0, q } = req.query;
 
   // Cálculo para limit e offset baseado nos parâmetros de paginação
   const limit = _end ? _end - _start : 10; // padrão de 10 itens por página se não especificado
   const offset = _start ? parseInt(_start) : 0;
 
   // Inicialização da cláusula WHERE para busca
-  let whereClause = '';
+  let whereClause = "";
   if (q) {
-      whereClause = `WHERE nome LIKE '%${q}%' OR email LIKE '%${q}%' OR usuario`; // ajustar conforme necessidade das colunas de busca
-     
+    whereClause = `WHERE nome LIKE '%${q}%' OR email LIKE '%${q}%' OR usuario`; // ajustar conforme necessidade das colunas de busca
   }
   // Consulta com ordenação e paginação
   const qSQL = `SELECT * FROM users ${whereClause} ORDER BY ${_sort} ${_order} LIMIT ${limit} OFFSET ${offset};`;
 
   db.query(qSQL, (err, data) => {
-      if (err) {
-          return res.status(500).json(err);
-      }
-      return res.status(200).json(data);
+    if (err) {
+      return res.status(500).json(err);
+    }
+    return res.status(200).json(data);
   });
 };
-
 
 export const getUsuarioById = (req, res) => {
   const { id } = req.params; // Assuming ID comes from route parameter
