@@ -17,7 +17,7 @@ export const getProdutos = (req, res) => {
   }
 
   // Consulta com ordenação e paginação
-  const qSQL = `SELECT *, DATE_FORMAT(dataDeLiberacao, '%d/%m/%Y') AS dataDeLiberacao FROM itens ${whereClause} ORDER BY ${_sort} ${_order} LIMIT ${limit} OFFSET ${offset};`;
+  const qSQL = `SELECT *, DATE_FORMAT(dataDeLiberacao, '%d/%m/%Y') AS dataDeLiberacao FROM produtos ${whereClause} ORDER BY ${_sort} ${_order} LIMIT ${limit} OFFSET ${offset};`;
 
   db.query(qSQL, (err, data) => {
     if (err) {
@@ -30,7 +30,7 @@ export const getProdutos = (req, res) => {
 export const getProdutosId = (req, res) => {
   const { id } = req.params; // Acessar o ID passado como parâmetro na rota
   const q =
-    "SELECT *, DATE_FORMAT(dataDeLiberacao, '%d/%m/%Y') AS dataDeLiberacao FROM itens WHERE id = ?;";
+    "SELECT *, DATE_FORMAT(dataDeLiberacao, '%d/%m/%Y') AS dataDeLiberacao FROM produtos WHERE id = ?;";
 
   db.query(q, [id], (err, data) => {
     // Usar parâmetros de consulta parametrizada
@@ -60,7 +60,7 @@ export const addProdutos = (req, res) => {
   ]);
 
   const q =
-    "INSERT INTO itens(`nomeCliente`, `equipamentoModelo`, `numeroDeSerie`, `dataDeLiberacao`, `codigo`, `descricao`, `quantidade`, `void`) VALUES ?";
+    "INSERT INTO produtos(`nomeCliente`, `equipamentoModelo`, `numeroDeSerie`, `dataDeLiberacao`, `codigo`, `descricao`, `quantidade`, `void`) VALUES ?";
 
   db.query(q, [itens], (error) => {
     if (error) return res.json(error);
@@ -76,7 +76,7 @@ export const updateProdutos = (req, res) => {
   );
 
   const q =
-    "UPDATE itens SET `nomeCliente` = ?, `equipamentoModelo` = ?, `numeroDeSerie` = ?, `dataDeLiberacao` = ?,\
+    "UPDATE produtos SET `nomeCliente` = ?, `equipamentoModelo` = ?, `numeroDeSerie` = ?, `dataDeLiberacao` = ?,\
     `codigo` = ?, `descricao` = ?, `quantidade` = ?, `void` = ? WHERE `id` = ?";
 
   const values = [
@@ -99,7 +99,7 @@ export const updateProdutos = (req, res) => {
 };
 
 export const deleteProdutos = (req, res) => {
-  const q = "DELETE FROM itens WHERE `id` = ?";
+  const q = "DELETE FROM produtos WHERE `id` = ?";
 
   db.query(q, [req.params.id], (error) => {
     if (error) return res.json(error);
