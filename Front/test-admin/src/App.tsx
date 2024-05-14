@@ -1,11 +1,11 @@
 import { Admin, Resource } from "react-admin";
 
-import ItemIcon from "@mui/icons-material/Book";
+import produtoIcon from "@mui/icons-material/Book";
 
 import { dataProvider } from "./dataProvider";
 import authProvider from "./authProvider";
 
-import { ItemList, ItemCreate, ItemEdit, ItemShow } from "./itens/index";
+import { produtoList, produtoCreate, produtoEdit, produtoShow } from "./produtos/index";
 import {
   ClienteList,
   ClienteCreate,
@@ -22,13 +22,13 @@ import {
 export const App = () => (
   <Admin dataProvider={dataProvider} authProvider={authProvider}>
     <Resource
-      name="item"
-      list={ItemList}
-      create={ItemCreate}
-      edit={ItemEdit}
-      show={ItemShow}
+      name="produto"
+      list={produtoList}
+      create={produtoCreate}
+      edit={produtoEdit}
+      show={produtoShow}
       recordRepresentation="name"
-      icon={ItemIcon}
+      icon={produtoIcon}
     />
     <Resource
       name="cliente"
@@ -37,7 +37,7 @@ export const App = () => (
       edit={ClienteEdit}
       show={ClienteShow}
       recordRepresentation="name"
-      icon={ItemIcon}
+      icon={produtoIcon}
     />
     <Resource
       name="usuario"
@@ -46,7 +46,7 @@ export const App = () => (
       edit={UsuariosEdit}
       show={UsuariosShow}
       recordRepresentation="name"
-      icon={ItemIcon}
+      icon={produtoIcon}
     />
   </Admin>
 );

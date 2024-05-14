@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 
 // Importe suas rotas
-import itemRoute from "./route/itens.js";
+import produtoRoute from "./route/produtos.js";
 import clienteRoute from "./route/clientes.js";
 import loginRouter from "./route/logins.js";
 
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 });
 
 // Rotas
-app.use("/", itemRoute);
+app.use("/", produtoRoute);
 app.use("/", clienteRoute);
 app.use("/", loginRouter);
 

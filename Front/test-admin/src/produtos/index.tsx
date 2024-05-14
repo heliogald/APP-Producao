@@ -32,7 +32,7 @@ const listFilters = [
   />,
 ];
 
-export const ItemList = () => {
+export const produtoList = () => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List filters={listFilters}>
@@ -60,13 +60,13 @@ export const ItemList = () => {
   );
 };
 
-export const ItemCreate = () => (
+export const produtoCreate = () => (
   <Create>
     <SimpleForm>
       <ReferenceInput source="nomeCliente" reference="cliente">
         <SelectInput optionText="nomeCliente" optionValue="nomeCliente" />
       </ReferenceInput>
-      <ReferenceInput source="equipamentoModelo" reference="item">
+      <ReferenceInput source="equipamentoModelo" reference="produto">
         <SelectInput
           optionText="equipamentoModelo"
           optionValue="equipamentoModelo"
@@ -76,7 +76,7 @@ export const ItemCreate = () => (
 
       <DateInput source="dataDeLiberacao" label="Data de Liberação" />
 
-      <ArrayInput source="pecas" label="Peças">
+      <ArrayInput source="produtos" label="Peças">
         <SimpleFormIterator>
           <TextInput source="codigo" label="Código" />
           <TextInput source="descricao" label="Descrição" />
@@ -93,7 +93,7 @@ const PageTitles = () => {
   return <>Edit `{record?.nomeCliente}`</>;
 };
 
-export const ItemEdit = () => (
+export const produtoEdit = () => (
   <Edit title={<PageTitles />}>
     <SimpleForm>
       {/* <TextInput source="id" disabled /> */}
@@ -114,7 +114,7 @@ export const ItemEdit = () => (
   </Edit>
 );
 
-export const ItemShow = () => (
+export const produtoShow = () => (
   <Show>
     <SimpleShowLayout>
       {/* <TextField source="id" /> */}
