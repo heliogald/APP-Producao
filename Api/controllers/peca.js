@@ -45,9 +45,9 @@ export const getPecasId = (req, res) => {
 };
 
 export const addPecas = (req, res) => {
-  const q = "INSERT INTO pecas(`descricao`) VALUE(?)";
+  const q = "INSERT INTO pecas(`codigo`,`descricao`) VALUE (?)";
 
-  const values = [req.body.descricao];
+  const values = [req.body.codigo, req.body.descricao];
 
   console.log(values);
   console.log(req.body);
@@ -55,21 +55,21 @@ export const addPecas = (req, res) => {
   db.query(q, [values], (error) => {
     if (error) return res.json(error);
 
-    return res.status(200).json("Cliente cadastrado com sucesso");
+    return res.status(200).json("Peça cadastrada com sucesso");
   });
 };
 
 export const updatePecas = (req, res) => {
-  const q = "UPDATE pecas SET `descricao` = ? WHERE `id` = ?";
+  const q = "UPDATE pecas SET `codigo` = ?,`descricao` = ? WHERE `id` = ?";
 
-  const values = [req.body.descricao, req.params.id];
+  const values = [req.body.codigo,req.body.descricao, req.params.id]
 
   db.query(q, values, (error, result) => {
     if (error) return res.status(500).json(error);
 
     // Verifica se houve alguma linha afetada pela atualização
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Peça não encontrada" });
+      return res.status(404).json({ message: "Equipamento não encontrado" });
     }
 
     // Retorna o objeto atualizado

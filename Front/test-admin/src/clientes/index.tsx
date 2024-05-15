@@ -1,42 +1,37 @@
-import { useMediaQuery, Theme, Stack  } from "@mui/material";
-import MailIcon from "@mui/icons-material/MailOutline";
-import CategoryIcon from "@mui/icons-material/LocalOffer";
-import {  
-  Datagrid, 
+import { useMediaQuery, Theme} from "@mui/material";
+import {
+  Datagrid,
   SearchInput,
   List,
   TextField,
   Create,
   SimpleForm,
   TextInput,  
-  DateInput,
   Edit,
   Show,
-  SimpleList,
-  DateField,
+  SimpleList,  
   useRecordContext,
   SimpleShowLayout,
-  EditButton,  
+  EditButton,
 } from "react-admin";
 
 const listFilters = [
+  // eslint-disable-next-line react/jsx-key
   <SearchInput source="q" alwaysOn />,
+  // eslint-disable-next-line react/jsx-key
   <TextInput label="Void" source="title" defaultValue="Void" />,
 ];
-
 
 export const ClienteList = () => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
     <List filters={listFilters}>
       {isSmall ? (
-        <SimpleList
-          primaryText={(record) => record.nomeCliente}         
-        />
+        <SimpleList primaryText={(record) => record.nomeCliente} />
       ) : (
-        <Datagrid rowClick="edit">          
+        <Datagrid rowClick="edit">
           {/* <TextField source="id" disabled/> */}
-          <TextField source="nomeCliente" />         
+          <TextField source="nomeCliente" />
           <EditButton />
         </Datagrid>
       )}
@@ -48,7 +43,7 @@ export const ClienteCreate = () => (
   <Create>
     <SimpleForm>
       <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />     
+      <TextInput source="nomeCliente" />
     </SimpleForm>
   </Create>
 );
@@ -62,7 +57,7 @@ export const ClienteEdit = () => (
   <Edit title={<PageTitles />}>
     <SimpleForm>
       <TextInput source="id" disabled />
-      <TextInput source="nomeCliente" />      
+      <TextInput source="nomeCliente" />
     </SimpleForm>
   </Edit>
 );
@@ -71,8 +66,7 @@ export const ClienteShow = () => (
   <Show>
     <SimpleShowLayout>
       <TextField source="id" />
-      <TextField source="nomeCliente" />     
+      <TextField source="nomeCliente" />
     </SimpleShowLayout>
   </Show>
 );
-

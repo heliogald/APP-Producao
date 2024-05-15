@@ -1,6 +1,5 @@
-import { useMediaQuery, Theme, Stack } from "@mui/material";
-import MailIcon from "@mui/icons-material/MailOutline";
-import CategoryIcon from "@mui/icons-material/LocalOffer";
+import { useMediaQuery, Theme} from "@mui/material";
+
 import {
   Datagrid,
   SearchInput,
@@ -9,11 +8,9 @@ import {
   Create,
   SimpleForm,
   TextInput,
-  DateInput,
   Edit,
   Show,
   SimpleList,
-  DateField,
   useRecordContext,
   SimpleShowLayout,
   EditButton,

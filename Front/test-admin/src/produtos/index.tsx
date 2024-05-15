@@ -11,8 +11,7 @@ import {
   DateInput,
   Edit,
   Show,
-  SimpleList,
-  DateField,
+  SimpleList,  
   useRecordContext,
   SimpleShowLayout,
   EditButton,
@@ -66,7 +65,7 @@ export const produtoCreate = () => (
       <ReferenceInput source="nomeCliente" reference="cliente">
         <SelectInput optionText="nomeCliente" optionValue="nomeCliente" />
       </ReferenceInput>
-      <ReferenceInput source="equipamentoModelo" reference="produto">
+      <ReferenceInput source="equipamentoModelo" reference="equipamento">
         <SelectInput
           optionText="equipamentoModelo"
           optionValue="equipamentoModelo"
@@ -76,10 +75,14 @@ export const produtoCreate = () => (
 
       <DateInput source="dataDeLiberacao" label="Data de Liberação" />
 
-      <ArrayInput source="produtos" label="Peças">
+      <ArrayInput source="pecas" label="Pecas">
         <SimpleFormIterator>
-          <TextInput source="codigo" label="Código" />
-          <TextInput source="descricao" label="Descrição" />
+          <ReferenceInput source="codigo" reference="peca">
+            <SelectInput optionText="codigo" optionValue="codigo" />
+          </ReferenceInput>
+          <ReferenceInput source="descricao" reference="peca">
+            <SelectInput optionText="descricao" optionValue="descricao" />
+          </ReferenceInput>
           <TextInput source="quantidade" label="Quantidade" />
           <TextInput source="void" label="Void" />
         </SimpleFormIterator>
@@ -122,7 +125,7 @@ export const produtoShow = () => (
       <TextField source="equipamentoModelo" />
       <TextField source="numeroDeSerie" />
       <TextField source="dataDeLiberacao" />
-      <DateField source="codigo" />
+      <TextField source="codigo" />
       <TextField source="descricao" />
       <TextField source="quantidade" />
       <TextField source="void" />

@@ -48,7 +48,7 @@ export const getProdutosId = (req, res) => {
 };
 
 export const addProdutos = (req, res) => {
-  const itens = req.body.Produtos.map((peca) => [
+  const values = req.body.pecas.map((peca) => [    
     req.body.nomeCliente,
     req.body.equipamentoModelo,
     req.body.numeroDeSerie,
@@ -57,17 +57,17 @@ export const addProdutos = (req, res) => {
     peca.descricao,
     peca.quantidade,
     peca.void,
-  ]);
-
+  ]);  
   const q =
     "INSERT INTO produtos(`nomeCliente`, `equipamentoModelo`, `numeroDeSerie`, `dataDeLiberacao`, `codigo`, `descricao`, `quantidade`, `void`) VALUES ?";
 
-  db.query(q, [itens], (error) => {
+  db.query(q, [values], (error) => {
     if (error) return res.json(error);
 
     return res.status(200).json("Itens cadastrados com sucesso");
   });
 };
+
 
 export const updateProdutos = (req, res) => {
   // Converter a data de liberação para o formato YYYY-MM-DD
