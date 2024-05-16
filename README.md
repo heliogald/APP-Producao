@@ -1,4 +1,4 @@
-# Projeto Admin
+# Projeto APP-Produção
 
 Este projeto é uma aplicação de administração utilizando React-admin no front-end e Node.js com Express.js, Sequelize e banco de dados MySQL no back-end.
 
