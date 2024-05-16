@@ -103,8 +103,8 @@ O servidor estará disponível em http://localhost:4000.
 Front-end
 Inicie o servidor de desenvolvimento React:
 
-sh
-Copiar código
+```sh
+
 cd frontend
 npm start
 A aplicação estará disponível em http://localhost:5173/.
@@ -121,7 +121,7 @@ npm run build: Compila a aplicação para produção.
 Estrutura do Projeto
 Back-end
 bash
-Copiar código
+
 backend/
 ├── config/          # Configurações do banco de dados
 │   ├── config.json  # Configuração do Sequelize
@@ -138,9 +138,10 @@ backend/
 ├── seeders/         # Dados para popular o banco de dados
 │   ├── 20230516123456-demo-user.js  # Exemplo de seeder de usuário
 └── server.js        # Arquivo principal do servidor
+
 Front-end
-csharp
-Copiar código
+
+
 frontend/
 ├── public/          # Arquivos públicos
 ├── src/
@@ -154,11 +155,13 @@ frontend/
 │   ├── styles/      # Arquivos de estilo
 │   ├── utils/       # Utilitários
 └── └── services/    # Serviços de integração com a API
+
 Licença
+
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
-csharp
-Copiar código
+
+
 
 Este README fornece todas as informações necessárias para que um desenvolvedor configure, instale, configure e execute a aplicação, além de oferecer uma visão clara da estrutura do projeto.
 
